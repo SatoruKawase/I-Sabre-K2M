@@ -328,7 +328,7 @@ static const struct i2c_device_id i_sabre_codec_i2c_id[] = {
 MODULE_DEVICE_TABLE(i2c, i_sabre_codec_i2c_id);
 
 static const struct of_device_id i_sabre_codec_of_match[] = {
-	{ .compatible = "audiophonics,ES9018K2M", },
+	{ .compatible = "audiophonics,i-sabre-codec", },
 	{ }
 };
 MODULE_DEVICE_TABLE(of, i_sabre_codec_of_match);

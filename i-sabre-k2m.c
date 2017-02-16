@@ -30,6 +30,17 @@
 
 static int snd_rpi_i_sabre_k2m_init(struct snd_soc_pcm_runtime *rtd)
 {
+	struct snd_soc_codec *codec = rtd->codec;
+	unsigned int value;
+
+	/* Device ID */
+	value = snd_soc_read(codec, ISABRECODEC_REG_01);
+	dev_info(codec->dev, "Audiophonics Device ID : %02X\n", value);
+
+	/* API revision */
+	value = snd_soc_read(codec, ISABRECODEC_REG_02);
+	dev_info(codec->dev, "Audiophonics API revision : %02X\n", value);
+
 	return 0;
 }
 
@@ -53,12 +64,12 @@ static struct snd_soc_ops snd_rpi_i_sabre_k2m_ops = {
 
 static struct snd_soc_dai_link snd_rpi_i_sabre_k2m_dai[] = {
 	{
-		.name           = "SabreBerry32",
-		.stream_name    = "SabreBerry32 DAC",
+		.name           = "I-Sabre K2M",
+		.stream_name    = "I-Sabre K2M DAC",
 		.cpu_dai_name   = "bcm2708-i2s.0",
-		.codec_dai_name = "sabre9018q2c-dai",
+		.codec_dai_name = "i-sabre-codec-dai",
 		.platform_name  = "bcm2708-i2s.0",
-		.codec_name     = "sabre9018q2c-i2c.1-0048",
+		.codec_name     = "i-sabre-codec-i2c.1-0048",
 		.dai_fmt        = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF
 						| SND_SOC_DAIFMT_CBS_CFS,
 		.init           = snd_rpi_i_sabre_k2m_init,
@@ -68,7 +79,7 @@ static struct snd_soc_dai_link snd_rpi_i_sabre_k2m_dai[] = {
 
 /* audio machine driver */
 static struct snd_soc_card snd_rpi_i_sabre_k2m = {
-	.name      = "SabreBerry32DAC",
+	.name      = "I-Sabre K2M DAC",
 	.owner     = THIS_MODULE,
 	.dai_link  = snd_rpi_i_sabre_k2m_dai,
 	.num_links = ARRAY_SIZE(snd_rpi_i_sabre_k2m_dai)
@@ -123,7 +134,7 @@ static int snd_rpi_i_sabre_k2m_remove(struct platform_device *pdev)
 }
 
 static const struct of_device_id snd_rpi_i_sabre_k2m_of_match[] = {
-	{ .compatible = "audiophonics,I-Sabre K2M", },
+	{ .compatible = "audiophonics,i-sabre-k2m", },
 	{}
 };
 MODULE_DEVICE_TABLE(of, snd_rpi_i_sabre_k2m_of_match);
