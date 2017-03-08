@@ -38,6 +38,9 @@ static const struct reg_default i_sabre_codec_reg_defaults[] = {
 	{ ISABRECODEC_REG_10, 0x00 },
 	{ ISABRECODEC_REG_20, 0x00 },
 	{ ISABRECODEC_REG_21, 0x00 },
+	{ ISABRECODEC_REG_22, 0x00 },
+	{ ISABRECODEC_REG_23, 0x00 },
+	{ ISABRECODEC_REG_24, 0x00 },
 };
 
 
@@ -47,6 +50,9 @@ static bool i_sabre_codec_writeable(struct device *dev, unsigned int reg)
 	case ISABRECODEC_REG_10:
 	case ISABRECODEC_REG_20:
 	case ISABRECODEC_REG_21:
+	case ISABRECODEC_REG_22:
+	case ISABRECODEC_REG_23:
+	case ISABRECODEC_REG_24:
 		return true;
 
 	default:
@@ -62,6 +68,9 @@ static bool i_sabre_codec_readable(struct device *dev, unsigned int reg)
 	case ISABRECODEC_REG_10:
 	case ISABRECODEC_REG_20:
 	case ISABRECODEC_REG_21:
+	case ISABRECODEC_REG_22:
+	case ISABRECODEC_REG_23:
+	case ISABRECODEC_REG_24:
 		return true;
 
 	default:
@@ -86,11 +95,48 @@ static bool i_sabre_codec_volatile(struct device *dev, unsigned int reg)
 static const DECLARE_TLV_DB_SCALE(volume_tlv, -10000, 100, 0);
 
 
+/* Filter Type */
+static const char * const fir_filter_type_texts[] = {
+	"Fast Roll-Off",
+	"Slow Roll-Off",
+	"Minimum Phase",
+};
+
+static SOC_ENUM_SINGLE_DECL(i_sabre_fir_filter_type_enum,
+				ISABRECODEC_REG_22, 0, fir_filter_type_texts);
+
+
+/* IIR Filter Select */
+static const char * const iir_filter_texts[] = {
+	"47kHz",
+	"50kHz",
+	"60kHz",
+	"70kHz",
+};
+
+static SOC_ENUM_SINGLE_DECL(i_sabre_iir_filter_enum,
+				ISABRECODEC_REG_23, 0, iir_filter_texts);
+
+
+/* I2S / SPDIF Select */
+static const char * const iis_spdif_sel_texts[] = {
+	"I2S",
+	"SPDIF",
+};
+
+static SOC_ENUM_SINGLE_DECL(i_sabre_iis_spdif_sel_enum,
+				ISABRECODEC_REG_24, 0, iis_spdif_sel_texts);
+
+
 /* Control */
 static const struct snd_kcontrol_new i_sabre_codec_controls[] = {
 SOC_SINGLE_RANGE_TLV("Digital Playback Volume", ISABRECODEC_REG_20, 0, 0, 100, 1, volume_tlv),
 
 SOC_DOUBLE("Mute Switch", ISABRECODEC_REG_21, 0, 1, 1, 0),
+
+SOC_ENUM("FIR Filter Type", i_sabre_fir_filter_type_enum),
+SOC_ENUM("IIR Filter Select", i_sabre_iir_filter_enum),
+SOC_ENUM("I2S/SPDIF Select", i_sabre_iis_spdif_sel_enum),
 };
 
 

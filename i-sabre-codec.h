@@ -24,7 +24,9 @@
 #define ISABRECODEC_REG_10	0x10	/* 0x01 = 352.8kHz or 384kHz, 0x00 = otherwise */
 #define ISABRECODEC_REG_20	0x20	/* 0 - 100 (decimal value, 0 = min., 100 = max.) */
 #define ISABRECODEC_REG_21	0x21	/* 0x00 = Mute OFF, 0x01 = Mute ON */
-#define ISABRECODEC_MAX_REG	0x21	/* Maximum Register Number */
-
+#define ISABRECODEC_REG_22	0x22	/* 0x00 = Fast Roll-Off, 0x01 = Slow Roll-Off, 0x02 = Minimum Phase */
+#define ISABRECODEC_REG_23	0x23	/* 0x00 = 47.44k, 0x01 = 50kHz, 0x02 = 60kHz, 0x03 = 70kHz */
+#define ISABRECODEC_REG_24	0x24	/* 0x00 = I2S, 0x01 = SPDIF */
+#define ISABRECODEC_MAX_REG	0x24	/* Maximum Register Number */
 
 #endif /* _SND_SOC_ISABRECODEC */
