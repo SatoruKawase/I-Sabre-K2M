@@ -294,8 +294,10 @@ static struct snd_soc_dai_driver i_sabre_codec_dai = {
 };
 
 static struct snd_soc_codec_driver i_sabre_codec_codec_driver = {
-	.controls         = i_sabre_codec_controls,
-	.num_controls     = ARRAY_SIZE(i_sabre_codec_controls),
+	.component_driver = {
+		.controls         = i_sabre_codec_controls,
+		.num_controls     = ARRAY_SIZE(i_sabre_codec_controls),
+	}
 };
 
 
