@@ -1,4 +1,5 @@
 KERNEL_SRC = /lib/modules/$(shell uname -r)/source
+#KERNEL_SRC = /usr/src/linux-headers-$(shell uname -r)/
 BUILD_DIR := $(shell pwd)
 DTC_DIR = /lib/modules/$(shell uname -r)/build/scripts/dtc/
 VERBOSE = 0
@@ -16,7 +17,6 @@ clean:
 	rm -f i-sabre-k2m.dtbo
 
 dtbs:
-	$(DTC_DIR)/dtc -@ -I dts -O dtb -o i-sabre-k2m-overlay.dtb i-sabre-k2m-overlay.dts
 	$(DTC_DIR)/dtc -@ -H epapr -I dts -O dtb -o i-sabre-k2m.dtbo i-sabre-k2m-overlay.dts
 
 modules_install:
@@ -37,14 +37,8 @@ remove:
 	modprobe -r i-sabre-k2m
 	modprobe -r i-sabre-codec
 
-# Kernel 4.1.y
-install_dtb:
-	cp i-sabre-k2m-overlay.dtb /boot/overlays/
-
-# Kernel 4.4.y
 install_dtbo:
 	cp i-sabre-k2m.dtbo /boot/overlays/
 
-remove_dtb:
-	rm -f /boot/overlays/i-sabre-k2m-overlay.dtb
+remove_dtbo:
 	rm -f /boot/overlays/i-sabre-k2m.dtbo
